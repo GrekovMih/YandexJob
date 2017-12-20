@@ -5,6 +5,12 @@
     <title>TestWork</title>
     <style>
 
+    html, body, .flex_container {
+    height: 100%;
+}
+ * {
+    margin: 0;
+}
 
         input {
             width: 37px;
@@ -15,37 +21,20 @@
             border-radius: 8px;
         }
 
-        /* Cначала обозначаем стили для IE8 и более старых версий
-т.е. здесь мы немного облагораживаем стандартный чекбокс. */
-        .checkbox {
-            vertical-align: top;
-            margin: 0 3px 0 0;
-            width: 17px;
-            height: 17px;
-        }
-
-        /* Это для всех браузеров, кроме совсем старых, которые не поддерживают
-        селекторы с плюсом. Показываем, что label кликабелен. */
         .checkbox + label {
             cursor: pointer;
         }
 
-        /* Далее идет оформление чекбокса в современных браузерах, а также IE9 и выше.
-        Благодаря тому, что старые браузеры не поддерживают селекторы :not и :checked,
-        в них все нижеследующие стили не сработают. */
-
-        /* Прячем оригинальный чекбокс. */
         .checkbox:not(checked) {
             position: absolute;
             opacity: 0;
         }
 
         .checkbox:not(checked) + label {
-            position: relative; /* будем позиционировать псевдочекбокс относительно label */
-            padding: 0 0 0 60px; /* оставляем слева от label место под псевдочекбокс */
+            position: relative;
+            padding: 0 0 0 60px;
         }
 
-        /* Оформление первой части чекбокса в выключенном состоянии (фон). */
         .checkbox:not(checked) + label:before {
             content: '';
             position: absolute;
@@ -58,7 +47,6 @@
             box-shadow: inset 0 2px 3px rgba(0, 0, 0, .2);
         }
 
-        /* Оформление второй части чекбокса в выключенном состоянии (переключатель). */
         .checkbox:not(checked) + label:after {
             content: '';
             position: absolute;
@@ -69,20 +57,17 @@
             border-radius: 10px;
             background: #FFF;
             box-shadow: 0 2px 5px rgba(0, 0, 0, .3);
-            transition: all .2s; /* анимация, чтобы чекбокс переключался плавно */
+            transition: all .2s;
         }
 
-        /* Меняем фон чекбокса, когда он включен. */
         .checkbox:checked + label:before {
             background: #9FD468;
         }
 
-        /* Сдвигаем переключатель чекбокса, когда он включен. */
         .checkbox:checked + label:after {
             left: 26px;
         }
 
-        /* Показываем получение фокуса. */
         .checkbox:focus + label:before {
             box-shadow: 0 0 0 3px rgba(255, 255, 0, .5);
         }
@@ -155,7 +140,7 @@
         </div>
         <div class="flex_box_ch">
             <input type="checkbox" class="checkbox" id="hidden"
-                   onclick="mainProgress.setMod('animated', event.target.checked ? 'yes' : '')"/>
+                   onclick="mainProgress.setMod('hidden', event.target.checked ? 'yes' : '')"/>
             <label for="hidden" class="checkbox-label"> </label> Hide
         </div>
 
@@ -193,7 +178,6 @@
 
         setValue(0);
 
-
         var currentState = {},
             normalState = {
                 animated: false,
@@ -201,8 +185,7 @@
             };
 
         function setState(state) {
-            var baseClassName = "progress"; //todo
-            var currentClassName = baseClassName;
+            var currentClassName = "progress";
             if (state.animated === true) {
                 currentClassName += " progress_animated ";
             }
@@ -238,8 +221,6 @@
         return {
             setValue: setValue,
             setMod: setMod,
-
-
         }
     }
 

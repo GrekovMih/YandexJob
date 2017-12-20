@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TestWork</title>
+    <style>
+
+        .flex_container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-flow: wrap;
+            align-content: space-around;
+        }
+
+        .flex_box {
+            margin: auto;
+        }
+
+        .progress:not(.progress_animated) {
+            transform: rotate(-90deg);
+        }
+
+        .progress circle {
+            transition: stroke-dashoffset 1s linear;
+        }
+
+        .progress_animated {
+            animation: rotate 2s linear infinite;
+        }
+
+        .progress_hidden {
+            display: none;
+        }
+
+        @keyframes rotate {
+            100% {
+                transform: rotate(360deg);
+
+            }
+
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="flex_container">
+    <div class="flex_box">
+        <svg id="main_progress" class="progress" width="140" height="140">
+            <circle r="65" cx="70" cy="70"
+                    fill="none" stroke="#efefec" stroke-width="5"/>
+            <circle r="65" cx="70" cy="70"
+                    fill="none" stroke="#ffdf3b" stroke-width="5"/>
+        </svg>
+    </div>
+    <div class="flex_box">
+
+        <input type="number" value="0" onchange="mainProgress.setValue(event.target.value)"> <br>
+        <input type="checkbox" onclick="mainProgress.setMod('animated', event.target.checked ? 'yes' : '')"> <br>
+        <input type="checkbox" onclick="mainProgress.setMod('hidden', event.target.checked ? 'yes' : '')"> <br>
+    </div>
+
+
+</div>
+
+<script type="application/javascript">
+
+    function progress(id) {
+
+        var elementSVG = document.getElementById(id);
+        console.log(elementSVG);
+        var circle = elementSVG.children[1];
+        console.log(circle);
+        var circleRadius = parseInt(circle.getAttribute("r"), 10);
+        console.log(circleRadius);
+        var circleLength = 2 * Math.PI * circleRadius;
+        console.log(circleLength);
+
+        circle.style.strokeDasharray = circleLength;
+
+        function setValue(value) {
+            value = parseInt(value, 10);
+            if (isNaN(value) || value < 0 || value > 100) {
+                throw Error("Invalid value " + value)
+            }
+            var offset = 1 - value / 100;
+            circle.style.strokeDashoffset = circleLength * offset;
+
+
+        }
+
+        setValue(0);
+
+
+        var currentState = {},
+            normalState = {
+                animated: false,
+                hidden: false
+            };
+
+        function setState(state) {
+            var baseClassName = "progress"; //todo
+            var currentClassName = baseClassName;
+            if (state.animated === true) {
+                currentClassName += " progress_animated ";
+            }
+            if (state.hidden === true) {
+                currentClassName += " progress_hidden ";
+            }
+            elementSVG.className.baseVal = currentClassName;
+            currentState = state;
+        }
+
+        setState(normalState);
+
+        function setMod(key, value) {
+            value = value === "yes";
+            switch (key) {
+                case "normal":
+                    setState(normalState);
+                    break;
+
+                case "animated":
+                case "hidden":
+                    var newState = Object.assign({}, currentState);
+                    newState[key] = value;
+                    setState(newState);
+                    break;
+
+                default:
+                    throw Error("Invalid key " + key);
+
+            }
+        }
+
+        return {
+            setValue: setValue,
+            setMod: setMod,
+
+
+        }
+    }
+
+    var mainProgress = progress("main_progress");
+
+
+</script>
+
+
+</body>
+</html>

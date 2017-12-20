@@ -7,7 +7,7 @@
 
 
         input {
-            width: 300px;
+            width: 37px;
             font-size: 13px;
             padding: 6px 0 4px 10px;
             border: 1px solid #cecece;
@@ -15,129 +15,76 @@
             border-radius: 8px;
         }
 
-        *, *:before, *:after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            /*transition*/
-            -webkit-transition: .25s ease-in-out;
-            -moz-transition: .25s ease-in-out;
-            -o-transition: .25s ease-in-out;
-            transition: .25s ease-in-out;
-            outline: none;
-            font-family: Helvetica Neue, helvetica, arial, verdana, sans-serif;
+        /* Cначала обозначаем стили для IE8 и более старых версий
+т.е. здесь мы немного облагораживаем стандартный чекбокс. */
+        .checkbox {
+            vertical-align: top;
+            margin: 0 3px 0 0;
+            width: 17px;
+            height: 17px;
         }
 
-        #toggles {
-            width: 60px;
-            margin: 50px auto;
-            text-align: center;
-        }
-
-        .ios-toggle, .ios-toggle:active {
-            position: absolute;
-            top: -5000px;
-            height: 0;
-            width: 0;
-            opacity: 0;
-            border: none;
-            outline: none;
-        }
-
-        .checkbox-label {
-            display: block;
-            position: relative;
-            padding: 10px;
-            margin-bottom: 20px;
-            font-size: 12px;
-            line-height: 16px;
-            width: 100%;
-            height: 36px;
-            /*border-radius*/
-            -webkit-border-radius: 18px;
-            -moz-border-radius: 18px;
-            border-radius: 18px;
-            background: #f8f8f8;
+        /* Это для всех браузеров, кроме совсем старых, которые не поддерживают
+        селекторы с плюсом. Показываем, что label кликабелен. */
+        .checkbox + label {
             cursor: pointer;
         }
 
-        .checkbox-label:before {
+        /* Далее идет оформление чекбокса в современных браузерах, а также IE9 и выше.
+        Благодаря тому, что старые браузеры не поддерживают селекторы :not и :checked,
+        в них все нижеследующие стили не сработают. */
+
+        /* Прячем оригинальный чекбокс. */
+        .checkbox:not(checked) {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .checkbox:not(checked) + label {
+            position: relative; /* будем позиционировать псевдочекбокс относительно label */
+            padding: 0 0 0 60px; /* оставляем слева от label место под псевдочекбокс */
+        }
+
+        /* Оформление первой части чекбокса в выключенном состоянии (фон). */
+        .checkbox:not(checked) + label:before {
             content: '';
-            display: block;
             position: absolute;
-            z-index: 1;
-            line-height: 34px;
-            text-indent: 40px;
-            height: 36px;
-            width: 36px;
-            /*border-radius*/
-            -webkit-border-radius: 100%;
-            -moz-border-radius: 100%;
-            border-radius: 100%;
-            top: 0px;
-            left: 0px;
-            right: auto;
-            background: white;
-            /*box-shadow*/
-            -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, .2), 0 0 0 2px #dddddd;
-            -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, .2), 0 0 0 2px #dddddd;
-            box-shadow: 0 3px 3px rgba(0, 0, 0, .2), 0 0 0 2px #dddddd;
+            top: -4px;
+            left: 0;
+            width: 50px;
+            height: 26px;
+            border-radius: 13px;
+            background: #CDD1DA;
+            box-shadow: inset 0 2px 3px rgba(0, 0, 0, .2);
         }
 
-        .checkbox-label:after {
-            content: attr(data-off);
-            display: block;
+        /* Оформление второй части чекбокса в выключенном состоянии (переключатель). */
+        .checkbox:not(checked) + label:after {
+            content: '';
             position: absolute;
-            z-index: 0;
-            top: 0;
-            left: -300px;
-            padding: 10px;
-            height: 100%;
-            width: 300px;
-            text-align: right;
-            color: #bfbfbf;
-            white-space: nowrap;
+            top: -2px;
+            left: 2px;
+            width: 22px;
+            height: 22px;
+            border-radius: 10px;
+            background: #FFF;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, .3);
+            transition: all .2s; /* анимация, чтобы чекбокс переключался плавно */
         }
 
-        .ios-toggle:checked + .checkbox-label {
-            /*box-shadow*/
-            -webkit-box-shadow: inset 0 0 0 20px rgba(19, 191, 17, 1), 0 0 0 2px rgba(19, 191, 17, 1);
-            -moz-box-shadow: inset 0 0 0 20px rgba(19, 191, 17, 1), 0 0 0 2px rgba(19, 191, 17, 1);
-            box-shadow: inset 0 0 0 20px rgba(19, 191, 17, 1), 0 0 0 2px rgba(19, 191, 17, 1);
+        /* Меняем фон чекбокса, когда он включен. */
+        .checkbox:checked + label:before {
+            background: #9FD468;
         }
 
-        .ios-toggle:checked + .checkbox-label:before {
-            left: calc(100% - 36px);
-            /*box-shadow*/
-            -webkit-box-shadow: 0 0 0 2px transparent, 0 3px 3px rgba(0, 0, 0, .3);
-            -moz-box-shadow: 0 0 0 2px transparent, 0 3px 3px rgba(0, 0, 0, .3);
-            box-shadow: 0 0 0 2px transparent, 0 3px 3px rgba(0, 0, 0, .3);
+        /* Сдвигаем переключатель чекбокса, когда он включен. */
+        .checkbox:checked + label:after {
+            left: 26px;
         }
 
-        .ios-toggle:checked + .checkbox-label:after {
-            content: attr(data-on);
-            left: 60px;
-            width: 36px;
-        }
-
-        /* GREEN CHECKBOX */
-
-        #checkbox1 + .checkbox-label {
-            /*box-shadow*/
-            -webkit-box-shadow: inset 0 0 0 0px rgba(19, 191, 17, 1), 0 0 0 2px #dddddd;
-            -moz-box-shadow: inset 0 0 0 0px rgba(19, 191, 17, 1), 0 0 0 2px #dddddd;
-            box-shadow: inset 0 0 0 0px rgba(19, 191, 17, 1), 0 0 0 2px #dddddd;
-        }
-
-        #checkbox1:checked + .checkbox-label {
-            /*box-shadow*/
-            -webkit-box-shadow: inset 0 0 0 18px rgba(19, 191, 17, 1), 0 0 0 2px rgba(19, 191, 17, 1);
-            -moz-box-shadow: inset 0 0 0 18px rgba(19, 191, 17, 1), 0 0 0 2px rgba(19, 191, 17, 1);
-            box-shadow: inset 0 0 0 18px rgba(19, 191, 17, 1), 0 0 0 2px rgba(19, 191, 17, 1);
-        }
-
-        #checkbox1:checked + .checkbox-label:after {
-            color: rgba(19, 191, 17, 1);
+        /* Показываем получение фокуса. */
+        .checkbox:focus + label:before {
+            box-shadow: 0 0 0 3px rgba(255, 255, 0, .5);
         }
 
         .flex_container {
@@ -149,7 +96,13 @@
 
         .flex_box {
             margin: auto;
-            height: 100%;
+
+        }
+
+        .flex_box_ch {
+            align-self: flex-start;
+            align-content: space-around;
+            margin: 15px;
 
         }
 
@@ -191,15 +144,21 @@
         </svg>
     </div>
     <div class="flex_box">
-        <input type="number" value="0" onchange="mainProgress.setValue(event.target.value)"> <br> Value
-        <div id="toggles">
-            <input type="checkbox" id="animated" class="ios-toggle"
+        <div class="flex_box_ch">
+
+            <input type="number" value="0" onchange="mainProgress.setValue(event.target.value)"> Value
+        </div>
+        <div class="flex_box_ch">
+            <input type="checkbox" id="animated" class="checkbox"
                    onclick="mainProgress.setMod('animated', event.target.checked ? 'yes' : '')"/>
             <label for="animated" class="checkbox-label"> </label> Animate
-            <input type="checkbox" class="ios-toggle" id="hidden"
+        </div>
+        <div class="flex_box_ch">
+            <input type="checkbox" class="checkbox" id="hidden"
                    onclick="mainProgress.setMod('animated', event.target.checked ? 'yes' : '')"/>
             <label for="hidden" class="checkbox-label"> </label> Hide
         </div>
+
     </div>
 
 

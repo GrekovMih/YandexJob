@@ -7,7 +7,6 @@
     <link href="main.css" rel="stylesheet">
 </head>
 <body>
-
 <div class="flex_container">
     <div class="flex_box">
         <svg id="main_progress" class="progress" width="140" height="140">
@@ -18,27 +17,17 @@
         </svg>
     </div>
     <div class="flex_box">
-        <div class="flex_box_ch">
-
+    
             <input type="number" value="0" onchange="mainProgress.setValue(event.target.value)"> Value
-        </div>
-        <div class="flex_box_ch">
             <input type="checkbox" id="animated" class="checkbox"
                    onclick="mainProgress.setMod('animated', event.target.checked ? 'yes' : '')"/>
             <label for="animated" class="checkbox-label"> </label> Animate
-        </div>
-        <div class="flex_box_ch">
+  
             <input type="checkbox" class="checkbox" id="hidden"
                    onclick="mainProgress.setMod('hidden', event.target.checked ? 'yes' : '')"/>
             <label for="hidden" class="checkbox-label"> </label> Hide
-        </div>
-
-    </div>
-
-
+     </div>
 </div>
-
 <script src="main.js" type="application/javascript"></script>
-
 </body>
 </html>

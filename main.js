@@ -1,5 +1,13 @@
+/**
+ * Создает экземпляр Progress.
+ *
+ * @this  {Progress}
+ * @param {string} id - html элемент
+ * @returns - задается состояние и значение для круга
+ */
 
-function progress(id) {
+
+function Progress(id) {
 
     var elementSVG = document.getElementById(id);
     console.log(elementSVG);
@@ -19,8 +27,6 @@ function progress(id) {
         }
         var offset = 1 - value / 100;
         circle.style.strokeDashoffset = circleLength * offset;
-
-
     }
 
     setValue(0);
@@ -61,7 +67,6 @@ function progress(id) {
 
             default:
                 throw Error("Invalid key " + key);
-
         }
     }
 
@@ -71,4 +76,10 @@ function progress(id) {
     }
 }
 
-var mainProgress = progress("main_progress");
+/**
+ * Создает новый экземпляр Progress по svg элементам.
+ *
+ * @param  {string} "main_progress"
+ */
+
+var mainProgress = Progress("main_progress");

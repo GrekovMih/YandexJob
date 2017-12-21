@@ -73,6 +73,14 @@ input {
     flex-flow: wrap;
 }
 
+@media screen and (orientation:portrait) {
+        .flex_container {
+             flex-direction: column;
+        }
+}
+
+
+
 .flex_box {
     margin: auto;
     min-width:150px;
